@@ -33,7 +33,7 @@ export function Navbar() {
     async function fetchStars() {
       try {
         const res = await fetch(
-          "https://api.github.com/repos/nutlope/make-comics",
+          "https://api.github.com/repos/abdtriedcoding/make-comics",
           {
             headers: {
               Accept: "application/vnd.github+json",
@@ -91,7 +91,7 @@ export function Navbar() {
           </button>
 
           <Link
-            href="https://github.com/nutlope/make-comics"
+            href="https://github.com/abdtriedcoding/make-comics"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 glass-panel glass-panel-hover transition-all text-xs rounded-md"

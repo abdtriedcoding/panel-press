@@ -50,20 +50,12 @@ export function Footer() {
             Got ideas? Tell us
           </button>
           <Link
-            href="https://github.com/nutlope/make-comics"
+            href="https://github.com/abdtriedcoding/make-comics"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors"
           >
             <GithubIcon className="w-3.5 h-3.5" />
-          </Link>
-          <Link
-            href="https://x.com/nutlope"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
-          >
-            <XIcon className="w-3.5 h-3.5" />
           </Link>
         </div>
       </footer>

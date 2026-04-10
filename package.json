@@ -1,7 +1,13 @@
 {
-  "name": "my-v0-project",
+  "name": "make-comics",
   "version": "0.1.0",
   "private": true,
+  "author": "Abdullah <abdtriedcoding@users.noreply.github.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdtriedcoding/make-comics.git"
+  },
+  "homepage": "https://github.com/abdtriedcoding/make-comics#readme",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
