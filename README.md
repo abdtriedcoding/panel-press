@@ -1,7 +1,4 @@
-<a href="https://github.com/abdtriedcoding/panel-press">
-  <img alt="Panel Press" src="./public/og.png">
-  <h1 align="center">Panel Press</h1>
-</a>
+# Panel Press
 
 <p align="center">
   Write the scene. Get the page. Panel Press turns a short description into a finished comic, drawn panel by panel.
