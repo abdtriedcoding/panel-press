@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Upload, X, Check, ArrowRight, Loader2 } from "lucide-react";
+import { Upload, X, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useS3Upload } from "next-s3-upload";
@@ -24,6 +24,15 @@ interface ComicCreationFormProps {
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
 }
+
+type DemoPanel = { scene: string; narration: string; dialogue: string; svg: string };
+type DemoResult = {
+  demo: boolean;
+  title: string;
+  description: string;
+  imageUrl: string;
+  panels: DemoPanel[];
+};
 
 const DEFAULT_STYLE = 'noir';
 const STYLE_STORAGE_KEY = 'comic-style-preference';
@@ -51,6 +60,7 @@ export function ComicCreationForm({
   const [showStyleDropdown, setShowStyleDropdown] = useState(false);
   const [creditsRemaining, setCreditsRemaining] = useState<number | null>(null);
   const [showApiModal, setShowApiModal] = useState(false);
+  const [demoResult, setDemoResult] = useState<DemoResult | null>(null);
 
   // Initialize style with initial value, load from localStorage after mount
   const [style, setStyle] = useState(initialStyle || DEFAULT_STYLE);
@@ -268,6 +278,13 @@ export function ComicCreationForm({
 
       const result = await response.json();
 
+      if (result.demo) {
+        setDemoResult(result as DemoResult);
+        clearInterval(stepInterval);
+        setIsLoading(false);
+        return;
+      }
+
       // Clear the draft since submission was successful
       localStorage.removeItem(PROMPT_STORAGE_KEY);
       clearInterval(stepInterval);
@@ -318,12 +335,14 @@ export function ComicCreationForm({
 
   return (
     <>
-      <div className="relative glass-panel p-0.5 sm:p-1 rounded-xl group focus-within:border-indigo/30 transition-colors">
-        <div className="bg-background/80 rounded-lg p-3 sm:p-4 border border-border/50">
-          <div className="flex justify-between items-center mb-2 sm:mb-3">
-            <label className="text-[10px] uppercase text-muted-foreground tracking-[0.02em] font-medium">
-              Prompt
+      <div className="border-2 border-ink bg-card p-4 shadow-[6px_6px_0_var(--ink)] transition-colors focus-within:border-cyan sm:p-5">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <label className="font-mono text-[11px] text-muted-foreground">
+              Your scene
             </label>
+            <span className="font-mono text-[11px] text-muted-foreground">
+              Shift + Enter to draw
+            </span>
           </div>
 
           <textarea
@@ -332,13 +351,13 @@ export function ComicCreationForm({
             onChange={(e) => setPrompt(e.target.value.slice(
               0, MAX_USER_PROMPT))
             }
-            placeholder="A cyberpunk detective standing in neon rain, holding a glowing datapad, moody lighting, noir style..."
+            placeholder="A cat detective walks a rainy street at midnight."
             disabled={isLoading}
             maxLength={MAX_USER_PROMPT}
-            className="w-full bg-transparent border-none text-sm text-white placeholder-muted-foreground/50 focus:ring-0 focus:outline-none resize-none h-16 leading-relaxed disabled:opacity-50 disabled:cursor-not-allowed"
+            className="ruled-paper h-20 w-full resize-none border-none bg-transparent text-base leading-relaxed text-ink placeholder:text-muted-foreground/60 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
           />
 
-          <div className="mt-3 pt-3 border-t border-border/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2">
+          <div className="mt-3 flex flex-col gap-3 border-t border-ink/20 pt-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 flex-1 min-w-0 w-full sm:w-auto">
               {characterFiles.length > 0 ? (
                 <div className="flex items-center gap-2">
@@ -346,7 +365,7 @@ export function ComicCreationForm({
                     <div key={index} className="relative group/thumb">
                       <button
                         onClick={() => setShowPreview(index)}
-                        className="w-8 h-8 rounded-md overflow-hidden border border-border/50 hover:border-indigo/50 transition-colors"
+                        className="h-8 w-8 overflow-hidden border-2 border-ink transition-colors hover:border-cyan"
                       >
                         <img
                           src={preview || "/placeholder.svg"}
@@ -360,7 +379,7 @@ export function ComicCreationForm({
                           if (!isLoading) removeFile(index);
                         }}
                         disabled={isLoading}
-                        className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover/thumb:opacity-100 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center border-2 border-ink bg-destructive text-destructive-foreground opacity-0 transition-opacity group-hover/thumb:opacity-100 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <X className="w-2.5 h-2.5 text-white" />
                       </button>
@@ -372,7 +391,7 @@ export function ComicCreationForm({
                         !isLoading && fileInputRef.current?.click()
                       }
                       disabled={isLoading}
-                      className="w-8 h-8 rounded-md border border-dashed border-border/50 hover:border-indigo/50 flex items-center justify-center text-muted-foreground hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-border/50 disabled:hover:text-muted-foreground"
+                      className="flex h-8 w-8 items-center justify-center border-2 border-dashed border-ink/40 text-muted-foreground transition-colors hover:border-cyan hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <Upload className="w-3.5 h-3.5" />
                     </button>
@@ -382,12 +401,12 @@ export function ComicCreationForm({
                 <button
                   onClick={() => !isLoading && fileInputRef.current?.click()}
                   disabled={isLoading}
-                  className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-muted-foreground"
+                  className="flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Upload Characters</span>
-                  <span className="text-muted-foreground/50 hidden sm:inline">
-                    (Max 2)
+                  <Upload className="h-3.5 w-3.5" />
+                  <span>Add a character reference</span>
+                  <span className="hidden text-muted-foreground/60 sm:inline">
+                    Up to 2
                   </span>
                 </button>
               )}
@@ -400,7 +419,7 @@ export function ComicCreationForm({
                     if (!isLoading) setShowStyleDropdown(!showStyleDropdown);
                   }}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-md glass-panel glass-panel-hover transition-all text-xs text-muted-foreground hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:text-muted-foreground"
+                  className="flex items-center gap-2 border-2 border-ink bg-card px-3 py-1.5 text-xs text-ink transition-colors hover:bg-spot disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <svg
                     className="w-3 h-3"
@@ -419,7 +438,7 @@ export function ComicCreationForm({
                 </button>
 
                 {showStyleDropdown && (
-                  <div className="absolute left-0 sm:right-0 sm:left-auto bottom-full mb-2 w-40 bg-background rounded-lg p-1 z-70 shadow-2xl border border-border/50">
+                  <div className="absolute bottom-full left-0 z-70 mb-2 w-44 border-2 border-ink bg-card p-1 shadow-[4px_4px_0_var(--ink)] sm:left-auto sm:right-0">
                     {COMIC_STYLES.map((styleOption) => (
                       <button
                         key={styleOption.id}
@@ -427,9 +446,9 @@ export function ComicCreationForm({
                           setStyle(styleOption.id);
                           setShowStyleDropdown(false);
                         }}
-                        className={`w-full text-left px-3 py-2 rounded text-xs transition-colors flex items-center justify-between ${style === styleOption.id
-                          ? "bg-indigo/10 text-indigo"
-                          : "text-muted-foreground hover:bg-white/5 hover:text-white"
+                        className={`flex w-full items-center justify-between px-3 py-2 text-left text-xs transition-colors ${style === styleOption.id
+                          ? "bg-cyan text-white"
+                          : "text-ink hover:bg-spot"
                           }`}
                       >
                         <span>{styleOption.name}</span>
@@ -453,72 +472,112 @@ export function ComicCreationForm({
             onChange={(e) => handleFiles(e.target.files)}
           />
         </div>
-      </div>
 
       {showPreview !== null && previews[showPreview] && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-100 flex items-center justify-center p-4"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-ink/70 p-4"
           onClick={() => setShowPreview(null)}
         >
-          <div className="relative max-w-2xl max-h-[80vh] glass-panel p-4 rounded-xl z-101">
+          <div className="proof-sheet relative z-101 max-h-[80vh] max-w-2xl p-4">
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-2 right-2 h-8 w-8 hover:bg-white/10 z-102"
+              className="absolute right-2 top-2 z-102 h-8 w-8 hover:bg-spot"
               onClick={() => setShowPreview(null)}
             >
-              <X className="w-4 h-4" />
+              <X className="h-4 w-4" />
             </Button>
             <img
               src={previews[showPreview] || "/placeholder.svg"}
               alt="Character preview"
-              className="w-full h-full object-contain rounded-lg"
+              className="h-full w-full object-contain"
             />
           </div>
         </div>
       )}
 
-      <div className="pt-4">
+      <div className="mt-7">
         {!isLoaded ? (
-          <div className="h-10" />
+          <div className="h-12" />
         ) : isSignedIn ? (
-          <div className="flex items-center justify-between gap-3 w-full">
-            <Button
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <button
               onClick={handleCreate}
               disabled={isLoading || !prompt.trim()}
-              className="bg-white hover:bg-neutral-200 text-black px-8 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-3 tracking-tight"
+              className="flex h-12 items-center justify-center gap-3 border-2 border-ink bg-ink px-8 text-sm font-semibold text-paper transition-colors hover:bg-cyan hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span className="text-sm font-medium tracking-tight">
-                    {loadingSteps[loadingStep]}
-                  </span>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  {loadingSteps[loadingStep]}
                 </>
               ) : (
-                <>
-                  Generate
-                  <ArrowRight className="w-4 h-4" />
-                </>
+                "Draw the page"
               )}
-            </Button>
-            <div className="text-xs text-muted-foreground whitespace-nowrap">
-              {hasApiKey ? (
-                <>Using your API key (~$0.01 per comic)</>
-              ) : (
-                <>{creditsRemaining !== null ? `${creditsRemaining} credit${creditsRemaining === 1 ? '' : 's'} remaining` : 'Checking credits...'}</>
-              )}
+            </button>
+            <div className="font-mono text-[11px] text-muted-foreground">
+              {hasApiKey
+                ? "Using your key"
+                : creditsRemaining !== null
+                  ? `${creditsRemaining} credits left`
+                  : "Checking credits"}
             </div>
           </div>
         ) : (
           <SignInButton mode="modal">
-            <Button className="w-full sm:w-auto sm:min-w-40 bg-white hover:bg-neutral-200 text-black px-8 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-3 tracking-tight">
-              Login to create your comic
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+            <button className="h-12 border-2 border-ink bg-ink px-8 text-sm font-semibold text-paper transition-colors hover:bg-cyan hover:text-ink">
+              Sign in to draw
+            </button>
           </SignInButton>
         )}
       </div>
+
+      {demoResult && (
+        <section
+          data-testid="demo-result"
+          className="mt-9 border-2 border-ink bg-card p-4 shadow-[6px_6px_0_var(--ink)]"
+        >
+          <div className="mb-4 flex items-start justify-between gap-3 border-b-2 border-ink pb-3">
+            <div>
+              <p className="font-mono text-[11px] text-muted-foreground">
+                Finished page
+              </p>
+              <h2
+                data-testid="demo-title"
+                className="mt-1 font-display text-2xl font-bold leading-tight text-ink"
+              >
+                {demoResult.title}
+              </h2>
+              {demoResult.description && (
+                <p
+                  data-testid="demo-description"
+                  className="mt-1.5 max-w-md text-xs leading-relaxed text-muted-foreground"
+                >
+                  {demoResult.description}
+                </p>
+              )}
+            </div>
+            <button
+              onClick={() => setDemoResult(null)}
+              className="border-2 border-ink px-2 py-1 font-mono text-[11px] transition-colors hover:bg-spot"
+              aria-label="Clear result"
+            >
+              Clear
+            </button>
+          </div>
+          <div className="grid grid-cols-2 gap-1.5 bg-ink p-1.5">
+            {demoResult.panels.map((panel, index) => (
+              <img
+                key={index}
+                data-testid={`demo-panel-${index + 1}`}
+                src={panel.svg}
+                alt={`Panel ${index + 1}: ${panel.scene}`}
+                className={`w-full border-2 border-ink ${index === 0 ? "col-span-2" : ""}`}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <ApiKeyModal
         isOpen={showApiModal}

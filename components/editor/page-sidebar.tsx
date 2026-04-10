@@ -83,9 +83,9 @@ export function PageSidebar({
           {isOwner && (
             <button
               onClick={onAddPage}
-              className="w-16 h-16 rounded-lg border-2 border-dashed border-border/50 hover:border-indigo/50 bg-background/50 hover:bg-background/80 transition-all group flex items-center justify-center flex-shrink-0"
+              className="w-16 h-16 rounded-lg border-2 border-dashed border-ink/40 hover:border-cyan bg-card hover:bg-spot transition-all group flex items-center justify-center flex-shrink-0"
             >
-              <Plus className="w-6 h-6 text-muted-foreground group-hover:text-indigo transition-transform" />
+              <Plus className="w-6 h-6 text-muted-foreground group-hover:text-cyan transition-transform" />
             </button>
           )}
         </div>
@@ -97,14 +97,14 @@ export function PageSidebar({
           onClick={onApiKeyClick}
           variant="ghost"
           size="icon"
-          className="w-10 h-10 glass-panel glass-panel-hover text-muted-foreground hover:text-white"
+          className="w-10 h-10 glass-panel glass-panel-hover text-muted-foreground hover:text-ink"
           title="Manage API Key"
         >
           <Key className="w-4 h-4" />
         </Button>
 
         <Show when="signed-in">
-          <div className="w-10 h-10 glass-panel glass-panel-hover rounded-md flex items-center justify-center text-muted-foreground hover:text-white transition-colors">
+          <div className="w-10 h-10 glass-panel glass-panel-hover rounded-md flex items-center justify-center text-muted-foreground hover:text-ink transition-colors">
             <UserButton
               appearance={{
                 elements: {

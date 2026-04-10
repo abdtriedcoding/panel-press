@@ -14,53 +14,38 @@ export default function Home() {
   const [characterFiles, setCharacterFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Auto-loop through pages every 6 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev === 4 ? 1 : prev + 1));
     }, 6000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-  };
+  const goToPage = (page: number) => setCurrentPage(page);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col overflow-hidden relative">
-      {/* Background gradient blurs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]" />
-      </div>
-
+    <div className="flex min-h-screen flex-col bg-paper">
       <Navbar />
 
-      <main className="flex-1 flex flex-col lg:flex-row min-h-[calc(100vh-6rem)]">
-        {/* Left: Controls & Input */}
-        <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 py-4 sm:py-6 relative">
-          <div className="max-w-xl mx-auto lg:mx-0 w-full z-10">
+      <main className="mx-auto grid w-full max-w-[1600px] flex-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+        <div className="flex flex-col justify-center border-ink px-5 py-12 sm:px-8 lg:border-r-2 lg:px-12 lg:py-14 xl:px-20">
+          <div className="w-full max-w-xl">
             <LandingHero />
-
-            <div className="space-y-4 sm:space-y-5 mt-4 sm:mt-5">
-              <div className="opacity-0 animate-fade-in-up animation-delay-100">
-                <ComicCreationForm
-                  prompt={prompt}
-                  setPrompt={setPrompt}
-                  style={style}
-                  setStyle={setStyle}
-                  characterFiles={characterFiles}
-                  setCharacterFiles={setCharacterFiles}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                />
-              </div>
+            <div className="animate-fade-in-up animation-delay-100 opacity-0">
+              <ComicCreationForm
+                prompt={prompt}
+                setPrompt={setPrompt}
+                style={style}
+                setStyle={setStyle}
+                characterFiles={characterFiles}
+                setCharacterFiles={setCharacterFiles}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+              />
             </div>
           </div>
         </div>
 
-        {/* Right: Visual Preview / Canvas */}
         <ComicPreview currentPage={currentPage} goToPage={goToPage} />
       </main>
 

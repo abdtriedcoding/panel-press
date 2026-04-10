@@ -3,53 +3,54 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Switched to dark mode as default with indigo accent palette */
+/* Print shop palette: paper, ink, process cyan, spot yellow. */
 :root {
-  --background: oklch(0.08 0.005 270);
-  --foreground: oklch(0.9 0.01 250);
-  --card: oklch(0.12 0.005 270);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.12 0.005 270);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.95 0 0);
-  --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.18 0.01 270);
-  --secondary-foreground: oklch(0.85 0 0);
-  --muted: oklch(0.18 0.005 270);
-  --muted-foreground: oklch(0.55 0.01 250);
-  --accent: oklch(0.6 0.2 270);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.22 0.01 270);
-  --input: oklch(0.15 0.005 270);
-  --ring: oklch(0.6 0.2 270);
-  --chart-1: oklch(0.6 0.2 270);
-  --chart-2: oklch(0.65 0.15 180);
-  --chart-3: oklch(0.7 0.18 80);
-  --chart-4: oklch(0.6 0.2 300);
-  --chart-5: oklch(0.65 0.2 20);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.1 0.005 270);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.6 0.2 270);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.18 0.01 270);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.2 0.01 270);
-  --sidebar-ring: oklch(0.6 0.2 270);
+  --paper: #e9ebe4;
+  --ink: #16181c;
+  --cyan: #0e7fa8;
+  --spot: #f2c94c;
+  --muted-ink: #5a6068;
 
-  /* Accent colors */
-  --indigo: oklch(0.6618 0.2214 36.88);
-  --indigo-light: oklch(0.7 0.15 36.88);
-  --emerald: oklch(0.65 0.2 160);
+  --background: #e9ebe4;
+  --foreground: #16181c;
+  --card: #f4f4ee;
+  --card-foreground: #16181c;
+  --popover: #f4f4ee;
+  --popover-foreground: #16181c;
+  --primary: #0e7fa8;
+  --primary-foreground: #f7f7f2;
+  --secondary: #dcdfd6;
+  --secondary-foreground: #16181c;
+  --muted: #dcdfd6;
+  --muted-foreground: #5a6068;
+  --accent: #f2c94c;
+  --accent-foreground: #16181c;
+  --destructive: #a52a22;
+  --destructive-foreground: #f7f7f2;
+  --border: #16181c;
+  --input: #f7f7f2;
+  --ring: #0e7fa8;
+  --chart-1: #0e7fa8;
+  --chart-2: #f2c94c;
+  --chart-3: #16181c;
+  --chart-4: #5a6068;
+  --chart-5: #a52a22;
+  --radius: 0rem;
+  --sidebar: #dcdfd6;
+  --sidebar-foreground: #16181c;
+  --sidebar-primary: #0e7fa8;
+  --sidebar-primary-foreground: #f7f7f2;
+  --sidebar-accent: #f4f4ee;
+  --sidebar-accent-foreground: #16181c;
+  --sidebar-border: #16181c;
+  --sidebar-ring: #0e7fa8;
 }
 
 @theme inline {
-  /* Adding tight tracking to Inter font for consistency */
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Bangers", cursive;
-  --font-heading: "Instrument Serif", serif;
+  --font-sans: var(--font-body-local), "IBM Plex Sans", sans-serif;
+  --font-display: var(--font-display-local), "Bricolage Grotesque", sans-serif;
+  --font-heading: var(--font-display-local), "Bricolage Grotesque", sans-serif;
+  --font-mono: var(--font-mono-local), "IBM Plex Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -74,10 +75,10 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -86,77 +87,108 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Custom accent tokens */
-  --color-indigo: var(--indigo);
-  --color-indigo-light: var(--indigo-light);
-  --color-emerald: var(--emerald);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-cyan: var(--cyan);
+  --color-spot: var(--spot);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    /* Adding tight tracking to body text */
-    @apply bg-background text-foreground tracking-tight;
+    @apply bg-background text-foreground font-sans;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--spot);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
   }
 }
 
-/* Glass panel effect for cards */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Reused component classes. Kept names from the old theme so existing
+   surfaces inherit the new ink-on-paper treatment. */
+@layer components {
+  .glass-panel {
+    background: var(--card);
+    border: 1px solid var(--ink);
+    backdrop-filter: none;
+  }
+  .glass-panel-hover:hover {
+    background: var(--spot);
+    color: var(--ink);
+  }
+  .proof-sheet {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--ink);
+  }
+  .halftone {
+    background-image: radial-gradient(var(--ink) 0.8px, transparent 0.8px);
+    background-size: 7px 7px;
+  }
+  .register-mark::before,
+  .register-mark::after {
+    content: "";
+    position: absolute;
+    background: var(--ink);
+  }
+  .register-mark::before {
+    left: 50%;
+    top: -6px;
+    width: 1px;
+    height: 22px;
+    transform: translateX(-50%);
+  }
+  .register-mark::after {
+    top: 50%;
+    left: -6px;
+    height: 1px;
+    width: 22px;
+    transform: translateY(-50%);
+  }
+  .ruled-paper {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      rgba(22, 24, 28, 0.09) 31px,
+      rgba(22, 24, 28, 0.09) 32px
+    );
+  }
 }
 
-.glass-panel-hover:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Gradient text effect */
 .gradient-text {
-  background: linear-gradient(to right, #e5e5e5, #a3a3a3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--ink);
 }
 
-/* Subtle scan line animation */
-@keyframes scan {
-  0% {
-    transform: translateY(-100%);
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
-  100% {
-    transform: translateY(100%);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.scan-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.1), transparent);
-  animation: scan 4s linear infinite;
-  pointer-events: none;
+.sheet-in {
+  animation: sheet-in 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-/* Dot grid background */
-.dot-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.font-display {
-  font-family: "Bangers", cursive;
-}
-
-/* Smooth fade-in animation */
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -165,76 +197,33 @@
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.5s ease-out forwards;
+  animation: fade-in-up 360ms ease-out both;
 }
 
-.animation-delay-100 {
-  animation-delay: 100ms;
-}
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-.animation-delay-300 {
-  animation-delay: 300ms;
-}
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-.animation-delay-500 {
-  animation-delay: 500ms;
-}
-.animation-delay-700 {
-  animation-delay: 700ms;
-}
-.animation-delay-1000 {
-  animation-delay: 1000ms;
-}
+.animation-delay-100 { animation-delay: 90ms; }
+.animation-delay-200 { animation-delay: 160ms; }
+.animation-delay-300 { animation-delay: 230ms; }
+.animation-delay-400 { animation-delay: 300ms; }
+.animation-delay-500 { animation-delay: 370ms; }
+.animation-delay-700 { animation-delay: 500ms; }
+.animation-delay-1000 { animation-delay: 700ms; }
 
-/* Floating animation for comic panels */
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(1deg);
-  }
-}
-
-@keyframes float-delayed {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(-1deg);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float-delayed 7s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-/* Custom toast styling to match glass-panel design */
 [data-sonner-toast] {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--card) !important;
+  backdrop-filter: none !important;
+  border: 1px solid var(--ink) !important;
   color: var(--foreground) !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
 }
 
 [data-sonner-toast][data-type="success"] {
-  border-color: rgba(52, 211, 153, 0.2) !important;
+  border-color: var(--cyan) !important;
 }
 
 [data-sonner-toast] [data-title] {
   color: var(--foreground) !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 [data-sonner-toast] [data-description] {
@@ -242,6 +231,15 @@
 }
 
 [data-sonner-toast] [data-close-button] {
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--ink) !important;
+  background: var(--secondary) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

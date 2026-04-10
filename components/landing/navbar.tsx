@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Key, BookOpen, User, Plus } from "lucide-react";
-
-function GithubIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-    </svg>
-  );
-}
+import { KeyRound, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ApiKeyModal } from "@/components/api-key-modal";
 import { SignInButton, Show, useAuth } from "@clerk/nextjs";
@@ -33,11 +25,11 @@ export function Navbar() {
     async function fetchStars() {
       try {
         const res = await fetch(
-          "https://api.github.com/repos/abdtriedcoding/make-comics",
+          "https://api.github.com/repos/abdtriedcoding/panel-press",
           {
             headers: {
               Accept: "application/vnd.github+json",
-              "User-Agent": "make-comics-app",
+              "User-Agent": "panel-press-app",
             },
           }
         );
@@ -58,80 +50,60 @@ export function Navbar() {
   const isOnStoriesPage = pathname === "/stories";
 
   if (!isLoaded)
-    return <div className="h-14 sm:h-16 w-full  border-b border-border/50" />;
+    return <div className="h-16 w-full border-b-2 border-ink bg-paper" />;
 
   return (
     <>
-      <nav className="w-full h-14 sm:h-16 border-b border-border/50 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-50 bg-background/80 backdrop-blur-md">
-        <Link
-          href="/"
-          className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-        >
-          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-            <img
-              src="/images/makecomics-logo.svg"
-              alt="MakeComics Logo"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <span className="text-white font-heading tracking-[0.005em] text-lg sm:text-xl">
-            MakeComics
-          </span>
-        </Link>
-
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={() => setShowApiModal(true)}
-            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 glass-panel glass-panel-hover transition-all text-xs rounded-md cursor-pointer"
-          >
-            <Key className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="text-muted-foreground text-xs sm:text-sm hidden sm:inline tracking-tight">
-              API Key
+      <nav className="sticky top-0 z-50 h-16 border-b-2 border-ink bg-paper/95">
+        <div className="mx-auto flex h-full max-w-[1600px] items-center justify-between px-5 sm:px-8">
+          <Link href="/" className="flex items-center gap-3">
+            <span className="register-mark relative flex h-8 w-8 items-center justify-center border-2 border-ink bg-spot font-display text-[13px] font-bold leading-none">
+              PP
             </span>
-          </button>
-
-          <Link
-            href="https://github.com/abdtriedcoding/make-comics"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 glass-panel glass-panel-hover transition-all text-xs rounded-md"
-          >
-            <GithubIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="text-muted-foreground text-xs sm:text-sm hidden sm:inline">
-              {stars}
+            <span className="font-display text-xl font-bold leading-none tracking-tight sm:text-2xl">
+              Panel Press
             </span>
           </Link>
 
-          <Show when="signed-out">
-            <SignInButton mode="modal">
-              <button className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 glass-panel glass-panel-hover transition-all text-xs rounded-md cursor-pointer">
-                <span className="text-muted-foreground text-xs sm:text-sm hidden sm:inline tracking-tight">
-                  Sign In
-                </span>
-              </button>
-            </SignInButton>
-          </Show>
-          <Show when="signed-in">
-            {isOnStoriesPage ? (
-              <Link href="/">
-                <button className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 bg-white hover:bg-neutral-200 text-black transition-all text-xs rounded-md cursor-pointer font-medium">
-                  <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span className="text-black text-xs sm:text-sm hidden sm:inline tracking-tight">
-                    Create New
-                  </span>
+          <div className="flex items-center gap-4 text-sm sm:gap-7">
+            <button
+              onClick={() => setShowApiModal(true)}
+              className="hidden items-center gap-1.5 border-b border-transparent py-1 transition-colors hover:border-ink sm:flex"
+            >
+              <KeyRound className="h-4 w-4" />
+              API key
+            </button>
+
+            <a
+              href="https://github.com/abdtriedcoding/panel-press"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center gap-1 border-b border-transparent py-1 transition-colors hover:border-ink sm:flex"
+            >
+              Source
+              <span className="font-mono text-xs">({stars})</span>
+            </a>
+
+            <Show when="signed-out">
+              <SignInButton mode="modal">
+                <button className="border-b border-ink py-1 font-medium">
+                  Sign in
                 </button>
-              </Link>
-            ) : (
-              <Link href="/stories">
-                <button className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 glass-panel glass-panel-hover transition-all text-xs rounded-md cursor-pointer">
-                  <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span className="text-muted-foreground text-xs sm:text-sm hidden sm:inline tracking-tight">
-                    My Stories
-                  </span>
-                </button>
-              </Link>
-            )}
-          </Show>
+              </SignInButton>
+            </Show>
+
+            <Show when="signed-in">
+              {isOnStoriesPage ? (
+                <Link href="/" className="flex items-center gap-1.5 border-b-2 border-ink py-1 font-medium">
+                  New page <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              ) : (
+                <Link href="/stories" className="border-b border-transparent py-1 transition-colors hover:border-ink">
+                  My stories
+                </Link>
+              )}
+            </Show>
+          </div>
         </div>
       </nav>
 

@@ -112,7 +112,7 @@ export function EditorToolbar({
           variant="ghost"
           size="icon"
           onClick={() => (isOwner ? router.push("/stories") : router.push("/"))}
-          className="hover:bg-secondary text-muted-foreground hover:text-white shrink-0"
+          className="hover:bg-secondary text-muted-foreground hover:text-ink shrink-0"
         >
           <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
@@ -125,12 +125,12 @@ export function EditorToolbar({
             onChange={(e) => setEditingTitle(e.target.value)}
             onBlur={handleTitleSave}
             onKeyDown={handleKeyDown}
-            className="text-sm sm:text-base text-white font-normal tracking-[-0.02em] bg-transparent border-none outline-none truncate min-w-0 flex-1"
+            className="text-sm sm:text-base text-ink font-normal tracking-[-0.02em] bg-transparent border-none outline-none truncate min-w-0 flex-1"
             style={{ width: `${editingTitle.length}ch` }}
           />
         ) : (
           <h1
-            className={`text-base sm:text-xl text-white font-heading font-semibold  truncate ${
+            className={`text-base sm:text-xl text-ink font-heading font-semibold  truncate ${
               isOwner && onTitleUpdate
                 ? "cursor-pointer hover:text-gray-300"
                 : ""
@@ -145,7 +145,7 @@ export function EditorToolbar({
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         <Button
           variant="ghost"
-          className="hover:bg-secondary text-muted-foreground hover:text-white gap-1.5 sm:gap-2 text-xs h-8 sm:h-9 px-2 sm:px-3 hidden md:flex"
+          className="hover:bg-secondary text-muted-foreground hover:text-ink gap-1.5 sm:gap-2 text-xs h-8 sm:h-9 px-2 sm:px-3 hidden md:flex"
           onClick={async () => {
             const url = window.location.href;
             try {
@@ -173,7 +173,7 @@ export function EditorToolbar({
         {onDownloadPDF && (
           <Button
             variant="ghost"
-            className="hover:bg-secondary text-muted-foreground hover:text-white gap-1.5 sm:gap-2 text-xs h-8 sm:h-9 px-2 sm:px-3"
+            className="hover:bg-secondary text-muted-foreground hover:text-ink gap-1.5 sm:gap-2 text-xs h-8 sm:h-9 px-2 sm:px-3"
             onClick={onDownloadPDF}
             disabled={isGeneratingPDF}
           >
@@ -185,7 +185,7 @@ export function EditorToolbar({
         {isOwner && onContinueStory && (
           <Button
             onClick={onContinueStory}
-            className="relative gap-1.5 sm:gap-2 text-xs bg-white hover:bg-neutral-200 text-black h-8 sm:h-9 px-3 sm:px-4"
+            className="relative gap-1.5 sm:gap-2 text-xs bg-ink hover:bg-cyan text-paper h-8 sm:h-9 px-3 sm:px-4"
           >
             <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">

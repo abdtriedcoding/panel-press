@@ -27,6 +27,7 @@ import {
 import { parseUserApiKey } from "@/lib/api-key";
 import { generateComicRequestSchema, parseJsonBody } from "@/lib/input-limits";
 import { generationErrorResponse } from "@/lib/generation-errors";
+import { generateDemoComic, demoErrorResponse } from "@/lib/cohere-demo";
 
 const NEW_MODEL = false;
 
@@ -39,6 +40,27 @@ const FIXED_DIMENSIONS = NEW_MODEL
   : { width: 864, height: 1184 };
 
 export async function POST(request: NextRequest) {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "1") {
+    try {
+      const demoBody = await request.json();
+      const comic = await generateDemoComic(
+        String(demoBody.prompt || ""),
+        String(demoBody.style || "noir"),
+        typeof demoBody.apiKey === "string" ? demoBody.apiKey : undefined,
+      );
+      return NextResponse.json({
+        demo: true,
+        storySlug: "demo",
+        title: comic.title,
+        description: comic.description,
+        imageUrl: comic.panels[0]?.svg,
+        panels: comic.panels,
+      });
+    } catch (error) {
+      return demoErrorResponse(error);
+    }
+  }
+
   let userId: string | null = null;
   let creditChargedAt: number | null = null;
   let imageGenerated = false;

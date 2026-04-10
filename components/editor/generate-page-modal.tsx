@@ -302,9 +302,9 @@ export function GeneratePageModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="border border-border/50 rounded-lg bg-background max-w-lg">
+        <DialogContent className="border-2 border-ink bg-card max-w-lg shadow-[8px_8px_0_var(--ink)]">
           <DialogHeader>
-            <DialogTitle className="text-xl text-white font-heading">
+            <DialogTitle className="text-xl text-ink font-heading">
               {isRedrawMode
                 ? `Redraw Page ${pageNumber}`
                 : `Generate Page ${pageNumber}`}
@@ -320,8 +320,8 @@ export function GeneratePageModal({
 
           <div className="space-y-4 mt-4">
             {/* Prompt Input */}
-            <div className="relative glass-panel p-1 rounded-xl group focus-within:border-indigo/30 transition-colors">
-              <div className="bg-background/80 rounded-lg p-4 border border-border/50">
+            <div className="relative border-2 border-ink bg-card p-1 group focus-within:border-indigo/30 transition-colors">
+              <div className="bg-card p-4">
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-[10px] uppercase text-muted-foreground tracking-[0.02em] font-medium">
                     Prompt
@@ -344,7 +344,7 @@ export function GeneratePageModal({
                   }
                   disabled={isGenerating}
                   maxLength={MAX_USER_PROMPT}
-                  className="w-full bg-transparent border-none text-sm text-white placeholder-muted-foreground/50 focus:ring-0 focus:outline-none resize-none h-20 leading-relaxed tracking-tight"
+                  className="w-full bg-transparent border-none text-sm text-ink placeholder-muted-foreground/50 focus:ring-0 focus:outline-none resize-none h-20 leading-relaxed tracking-tight"
                 />
 
                 <div className="mt-3 pt-3 border-t border-border/30 space-y-3">
@@ -378,7 +378,7 @@ export function GeneratePageModal({
                                 />
                                 {/* Selection indicator */}
                                 {isSelected && (
-                                  <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-indigo-500 rounded-full flex items-center justify-center pointer-events-none z-10 border border-background">
+                                  <div className="absolute top-0 right-0 w-3.5 h-3.5 bg-cyan rounded-full flex items-center justify-center pointer-events-none z-10 border border-background">
                                     <Check className="w-2 h-2 text-white" />
                                   </div>
                                 )}
@@ -395,7 +395,7 @@ export function GeneratePageModal({
                                   disabled={isGenerating}
                                   className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center opacity-0 group-hover/thumb:opacity-100 transition-opacity disabled:opacity-50 z-20"
                                 >
-                                  <X className="w-2.5 h-2.5 text-white" />
+                                  <X className="w-2.5 h-2.5 text-paper" />
                                 </button>
                               )}
                             </div>
@@ -411,7 +411,7 @@ export function GeneratePageModal({
                         !isGenerating && fileInputRef.current?.click()
                       }
                       disabled={isGenerating}
-                      className="flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2 text-xs text-muted-foreground hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Upload className="w-3.5 h-3.5" />
                       <span>
@@ -444,7 +444,7 @@ export function GeneratePageModal({
             <Button
               onClick={handleGenerate}
               disabled={!prompt.trim() || isGenerating}
-              className="w-full gap-2 bg-white hover:bg-neutral-200 text-black tracking-tight"
+              className="w-full gap-2 bg-ink hover:bg-cyan text-paper tracking-tight"
             >
               {isGenerating ? (
                 <>
@@ -464,10 +464,10 @@ export function GeneratePageModal({
       {/* Character Preview Modal */}
       {showPreview && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-100 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-ink/70 z-100 flex items-center justify-center p-4"
           onClick={() => setShowPreview(null)}
         >
-          <div className="relative max-w-sm max-h-[80vh] glass-panel p-4 rounded-xl z-101">
+          <div className="relative max-w-sm max-h-[80vh] proof-sheet p-4 z-101">
             <Button
               variant="ghost"
               size="icon"

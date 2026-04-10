@@ -1,6 +1,6 @@
-<a href="https://github.com/abdtriedcoding/make-comics">
-  <img alt="Make Comics" src="./public/og.png">
-  <h1 align="center">Make Comics</h1>
+<a href="https://github.com/abdtriedcoding/panel-press">
+  <img alt="Panel Press" src="./public/og.png">
+  <h1 align="center">Panel Press</h1>
 </a>
 
 <p align="center">
@@ -24,7 +24,7 @@ The AI references previous pages for visual coherence and uses uploaded characte
 
 ## Cloning & running
 
-1. Clone the repo: `git clone https://github.com/abdtriedcoding/make-comics.git`
+1. Clone the repo: `git clone https://github.com/abdtriedcoding/panel-press.git`
 2. Create a `.env` file based on `.example.env` and add your API keys:
    - **Together AI API key**: `TOGETHER_API_KEY=<your_together_ai_api_key>`
    - **AWS S3 credentials**: `S3_UPLOAD_KEY`, `S3_UPLOAD_SECRET`, `S3_UPLOAD_BUCKET`, `S3_UPLOAD_REGION`
@@ -32,3 +32,7 @@ The AI references previous pages for visual coherence and uses uploaded characte
    - **Clerk keys**: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`
    - **Upstash Redis**: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
 3. Run `npm install` and `npm run dev` to install dependencies and run locally.
+
+## Local demo mode
+
+Set `NEXT_PUBLIC_DEMO_MODE=1` and `COHERE_API_KEY` in `.env.local` to run without Clerk, Neon, S3, or Redis. Demo mode uses Cohere for the script and renders comic panels locally as SVG. Start it with `npx next dev --webpack -p 3210`.

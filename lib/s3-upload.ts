@@ -30,7 +30,7 @@ export async function uploadImageToS3(
       Body: imageBuffer,
       ContentType: "image/jpeg",
       Metadata: {
-        "app-name": "make-comics",
+        "app-name": "panel-press",
         "type": "comic-page",
       },
     });

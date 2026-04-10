@@ -75,7 +75,7 @@ export function ComicCanvas({
             <div className="scan-line opacity-30" />
 
             {/* Page label */}
-            <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/70 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-ink/80 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               Page {page.id}
             </div>
            </div>
@@ -86,7 +86,7 @@ export function ComicCanvas({
            {onInfoClick && (
              <Button
                variant="ghost"
-               className="hover:bg-secondary text-muted-foreground hover:text-white gap-2 text-xs h-9 px-3"
+               className="hover:bg-secondary text-muted-foreground hover:text-ink gap-2 text-xs h-9 px-3"
                onClick={onInfoClick}
              >
                <Info className="w-4 h-4" />
@@ -97,7 +97,7 @@ export function ComicCanvas({
           {isOwner && (
             <Button
               variant="ghost"
-              className="hover:bg-secondary text-muted-foreground hover:text-white gap-2 text-xs h-9 px-3"
+              className="hover:bg-secondary text-muted-foreground hover:text-ink gap-2 text-xs h-9 px-3"
               onClick={onRedrawClick}
               disabled={isLoading}
             >
@@ -127,7 +127,7 @@ export function ComicCanvas({
              <Button
                variant="ghost"
                size="icon"
-               className="h-6 w-6 hover:bg-secondary text-muted-foreground hover:text-white"
+               className="h-6 w-6 hover:bg-secondary text-muted-foreground hover:text-ink"
                onClick={onPrevPage}
                disabled={pageIndex === 0}
              >
@@ -137,7 +137,7 @@ export function ComicCanvas({
              <Button
                variant="ghost"
                size="icon"
-               className="h-6 w-6 hover:bg-secondary text-muted-foreground hover:text-white"
+               className="h-6 w-6 hover:bg-secondary text-muted-foreground hover:text-ink"
                onClick={onNextPage}
                disabled={pageIndex === totalPages - 1}
              >
@@ -150,7 +150,7 @@ export function ComicCanvas({
              {onInfoClick && (
                <Button
                  variant="ghost"
-                 className="hover:bg-secondary text-muted-foreground hover:text-white gap-2 text-xs h-9 px-3"
+                 className="hover:bg-secondary text-muted-foreground hover:text-ink gap-2 text-xs h-9 px-3"
                  onClick={onInfoClick}
                >
                  <Info className="w-4 h-4" />
@@ -161,7 +161,7 @@ export function ComicCanvas({
             {isOwner && (
               <Button
                 variant="ghost"
-                className="hover:bg-secondary text-muted-foreground hover:text-white gap-2 text-xs h-9 px-3 flex-1"
+                className="hover:bg-secondary text-muted-foreground hover:text-ink gap-2 text-xs h-9 px-3 flex-1"
                 onClick={onRedrawClick}
                 disabled={isLoading}
               >
@@ -176,7 +176,7 @@ export function ComicCanvas({
 
              <Button
                variant="ghost"
-               className="hover:bg-secondary text-muted-foreground hover:text-white gap-2 text-xs h-9 px-3 flex-1"
+               className="hover:bg-secondary text-muted-foreground hover:text-ink gap-2 text-xs h-9 px-3 flex-1"
                onClick={async () => {
                  const url = window.location.href;
                  if (navigator.share) {

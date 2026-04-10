@@ -1,13 +1,13 @@
 {
-  "name": "make-comics",
+  "name": "panel-press",
   "version": "0.1.0",
   "private": true,
   "author": "Abdullah <abdtriedcoding@users.noreply.github.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abdtriedcoding/make-comics.git"
+    "url": "git+https://github.com/abdtriedcoding/panel-press.git"
   },
-  "homepage": "https://github.com/abdtriedcoding/make-comics#readme",
+  "homepage": "https://github.com/abdtriedcoding/panel-press#readme",
   "scripts": {
     "build": "next build",
     "dev": "next dev",

@@ -3,6 +3,14 @@ import { auth } from "@clerk/nextjs/server";
 import { freeTierRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "1") {
+    return NextResponse.json({
+      hasApiKey: true,
+      creditsRemaining: "unlimited",
+      resetTime: null,
+    });
+  }
+
   try {
     const { userId } = await auth();
 

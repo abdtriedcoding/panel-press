@@ -1,10 +1,9 @@
 import type React from "react"
 import type { Metadata } from "next"
 import {
-  Inter,
-  Bangers,
-  Space_Grotesk,
-  Instrument_Serif,
+  Bricolage_Grotesque,
+  IBM_Plex_Sans,
+  IBM_Plex_Mono,
 } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
@@ -12,26 +11,28 @@ import PlausibleProvider from "next-plausible"
 import { ClerkProvider } from "@clerk/nextjs"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const bangers = Bangers({
-  weight: "400",
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-bangers",
+  variable: "--font-display-local",
+  display: "swap",
 })
-const spaceGrotesk = Space_Grotesk({
+const body = IBM_Plex_Sans({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-body-local",
+  display: "swap",
 })
-const instrumentSerif = Instrument_Serif({
-  weight: ["400"],
+const mono = IBM_Plex_Mono({
+  weight: ["400", "500"],
   subsets: ["latin"],
-  variable: "--font-instrument-serif",
+  variable: "--font-mono-local",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "MakeComics - AI Comic Generator",
+  title: "Panel Press - AI Comic Generator",
   description:
-    "Create stunning AI-generated comics in seconds. Choose your style, describe your story, and watch the magic happen.",
+    "Write a short scene and get a finished comic page. Panel Press draws the panels for you.",
   openGraph: {
     images: "https://www.makecomics.io/og.png",
   },
@@ -46,7 +47,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${inter.variable} ${bangers.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable}`}
+        className={`${display.variable} ${body.variable} ${mono.variable}`}
       >
         <head>
           <PlausibleProvider

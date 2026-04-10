@@ -89,7 +89,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="border border-border/50 rounded-xl bg-background max-w-sm p-6 overflow-hidden">
+      <DialogContent className="border border-border/50 border-2 border-ink bg-card max-w-sm p-6 overflow-hidden shadow-[8px_8px_0_var(--ink)]">
         <AnimatePresence>
           {success && (
             <motion.div
@@ -98,7 +98,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background rounded-xl"
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-card"
             >
               <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
@@ -112,7 +112,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.2 }}
-                className="text-sm font-medium text-white"
+                className="text-sm font-medium text-ink"
               >
                 API key saved
               </motion.p>
@@ -130,7 +130,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
         <DialogHeader className="mb-4">
           <div className="flex items-center gap-2 mb-1">
             <Key className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-            <DialogTitle className="text-base font-semibold text-white leading-none">
+            <DialogTitle className="text-base font-semibold text-ink leading-none">
               {existingKey ? "Your API key" : "Add your API key"}
             </DialogTitle>
           </div>
@@ -169,14 +169,14 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
                 type="password"
                 value={apiKeyInput}
                 onChange={(e) => { setApiKeyInput(e.target.value); setError(null) }}
-                placeholder="sk-••••••••••••••••"
-                className={`bg-secondary border-border/50 text-white placeholder-muted-foreground/40 py-5 pr-10 font-mono text-sm transition-colors duration-200 ${error ? "border-red-500/60 focus-visible:ring-red-500/20" : ""}`}
+                placeholder="sk-â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                className={`bg-input border-2 border-ink text-ink placeholder:text-muted-foreground/60 py-5 pr-10 font-mono text-sm transition-colors duration-200 ${error ? "border-red-500/60 focus-visible:ring-red-500/20" : ""}`}
               />
               {apiKeyInput && (
                 <button
                   type="button"
                   onClick={() => setApiKeyInput("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-ink transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -188,7 +188,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
             href={TOGETHER_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-ink transition-colors"
           >
             Get a free Together AI key
             <ExternalLink className="h-3 w-3" />
@@ -199,10 +199,10 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
               type="button"
               variant="outline"
               onClick={existingKey ? handleDelete : onClose}
-              className={`flex-1 border-border/50 hover:border-border transition-colors ${
+              className={`flex-1 border-ink/40 hover:border-ink transition-colors ${
                 existingKey
                   ? "text-red-400 border-red-500/30 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-300"
-                  : "text-muted-foreground hover:text-white hover:bg-secondary"
+                  : "text-muted-foreground hover:text-ink hover:bg-spot"
               }`}
             >
               {existingKey ? "Delete" : "Later"}
@@ -210,15 +210,15 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
             <Button
               type="submit"
               disabled={!apiKeyInput.trim() || isLoading}
-              className="flex-[2] gap-2 bg-white hover:bg-neutral-200 text-black font-medium"
+              className="flex-[2] gap-2 bg-ink hover:bg-cyan text-paper font-medium"
             >
-              {isLoading ? "Checking…" : "Save key"}
+              {isLoading ? "Checkingâ€¦" : "Save key"}
               {!isLoading && <ArrowRight className="w-4 h-4" />}
             </Button>
           </div>
 
           <p className="text-xs text-muted-foreground/50 text-center pt-1">
-            Stored locally · never sent to our servers
+            Stored locally Â· never sent to our servers
           </p>
         </form>
       </DialogContent>

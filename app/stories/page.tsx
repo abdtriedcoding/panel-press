@@ -44,145 +44,106 @@ export default function StoriesPage() {
     }
   };
 
+  const shell = (children: React.ReactNode) => (
+    <div className="flex min-h-screen flex-col bg-paper">
+      <Navbar />
+      <main className="flex flex-1 items-center justify-center">{children}</main>
+    </div>
+  );
+
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col overflow-hidden relative">
-        <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]" />
-        </div>
-
-        <Navbar />
-
-        <main className="flex-1 flex items-center justify-center">
-          <StoryLoader text="Loading your comic library..." />
-        </main>
-      </div>
-    );
+    return shell(<StoryLoader text="Opening your library..." />);
   }
 
   if (error) {
-    return (
-      <div className="min-h-screen bg-background flex flex-col overflow-hidden relative">
-        <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]" />
-        </div>
-
-        <Navbar />
-
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-destructive mb-4">{error}</p>
-            <Button onClick={fetchStories}>Try Again</Button>
-          </div>
-        </main>
+    return shell(
+      <div className="proof-sheet p-10 text-center">
+        <p className="text-destructive">{error}</p>
+        <Button onClick={fetchStories} className="mt-5 border-2 border-ink bg-ink text-paper hover:bg-cyan hover:text-ink">
+          Try again
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col overflow-hidden relative">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-900/10 rounded-full blur-[120px]" />
-        <div className="absolute top-[20%] right-[20%] w-[30%] h-[30%] bg-emerald/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[30%] left-[15%] w-[25%] h-[25%] bg-purple-500/5 rounded-full blur-[80px]" />
-      </div>
-
+    <div className="flex min-h-screen flex-col bg-paper">
       <Navbar />
 
-      <main className="flex-1 flex flex-col min-h-[calc(100vh-4rem)]">
-        <div className="w-full px-4 sm:px-6 lg:px-12 xl:px-20 py-4 sm:py-6 relative">
-          <div className="max-w-7xl mx-auto w-full z-10 py-8">
-            {stories.length === 0 ? (
-              <div className="opacity-0 animate-fade-in-up animation-delay-100 text-center py-20">
-                <div className="relative mb-8">
-                  <div className="inline-flex items-center justify-center w-40 h-52 glass-panel border-2 border-dashed border-border rounded-lg hover:border-indigo/30 hover:shadow-indigo/10 hover:shadow-lg transition-all duration-300 group">
-                    <Plus className="w-20 h-20 text-muted-foreground/50 group-hover:text-indigo/40 transition-colors duration-300" />
-                  </div>
-                  <div className="absolute -inset-1 bg-linear-to-r from-indigo/20 to-emerald/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-                </div>
-                <h2 className="text-4xl font-heading font-semibold mb-4 text-foreground tracking-tight">
-                  Your Comic Library Awaits
-                </h2>
-                <p className="text-muted-foreground mb-10 max-w-lg mx-auto leading-relaxed text-lg">
-                  Start crafting your first visual story. Every great comic
-                  begins with a single panel.
-                </p>
-                <Button
-                  onClick={() => router.push("/")}
-                  className="glass-panel glass-panel-hover px-8 py-4 text-base font-medium transition-all duration-300 hover:shadow-indigo/20 hover:shadow-lg"
-                >
-                  <Plus className="w-5 h-5 mr-3" />
-                  Create Your First Comic
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="opacity-0 animate-fade-in-up animation-delay-100 mb-12">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-semibold text-foreground mb-4 tracking-tight">
-                    Your Comic Library
-                  </h1>
-                  <p className="text-muted-foreground text-base sm:text-lg max-w-3xl leading-relaxed">
-                    Browse and continue your comic creations. Each story is a
-                    unique visual narrative waiting to unfold.
-                  </p>
-                </div>
-
-                <div className="opacity-0 animate-fade-in-up animation-delay-200 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
-                  {stories.map((story, index) => (
-                    <button
-                      key={story.id}
-                      onClick={() => router.push(`/story/${story.slug}`)}
-                      className={`opacity-0 animate-fade-in-up group relative glass-panel p-3 rounded-lg hover:shadow-indigo/20 hover:shadow-2xl transition-all duration-500 border border-border/50  backdrop-blur-sm focus:outline-none`}
-                      style={{ animationDelay: `${200 + index * 100}ms` }}
-                    >
-                      <div className="w-full h-full bg-neutral-900 border-4 border-black overflow-hidden relative transition-colors duration-300">
-                        {story.coverImage ? (
-                          <>
-                            <img
-                              src={story.coverImage}
-                              alt={story.title}
-                              className="w-full h-full object-cover transition-all duration-500 group-hover:brightness-110 opacity-90"
-                            />
-
-                            <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-300" />
-
-                            <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-black/80 text-white text-[9px] font-mono uppercase tracking-widest border border-white/20 group-hover:bg-indigo/80 group-hover:border-indigo/40 transition-colors duration-300">
-                              {COMIC_STYLES.find(
-                                (s) => s.id === story.style
-                              )?.name.toUpperCase() ||
-                                story.style.toUpperCase()}
-                            </div>
-
-                            <div className="absolute bottom-0 left-0 right-0 p-3 text-left">
-                              <h3 className="font-heading text-sm text-white line-clamp-1 mb-1 group-hover:text-indigo-100 transition-colors duration-300 font-semibold">
-                                {story.title}
-                              </h3>
-                              <p className="text-[10px] text-white/60 font-mono uppercase tracking-wider group-hover:text-white/80 transition-colors duration-300">
-                                {new Date(story.createdAt).toLocaleDateString()}
-                              </p>
-                            </div>
-                          </>
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-neutral-800 to-neutral-900">
-                            <div className="text-center">
-                              <Loader2 className="w-8 h-8 animate-spin text-indigo/60 mx-auto mb-3" />
-                              <p className="text-xs text-white/70 font-mono uppercase tracking-wider">
-                                Generating...
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+      <main className="mx-auto w-full max-w-[1600px] flex-1 px-5 py-12 sm:px-8 lg:px-12">
+        <div className="mb-10 flex items-end justify-between border-b-2 border-ink pb-5">
+          <div>
+            <p className="mb-2 font-mono text-[11px] text-muted-foreground">
+              Your library
+            </p>
+            <h1 className="font-display text-4xl font-bold leading-none tracking-tight sm:text-5xl">
+              Comic shelf
+            </h1>
           </div>
+          <p className="font-mono text-[11px] text-muted-foreground">
+            {stories.length} {stories.length === 1 ? "story" : "stories"}
+          </p>
         </div>
+
+        {stories.length === 0 ? (
+          <div className="animate-fade-in-up py-16 text-center">
+            <div className="mx-auto mb-8 flex h-56 w-44 items-center justify-center border-2 border-dashed border-ink/40">
+              <Plus className="h-16 w-16 text-muted-foreground/50" />
+            </div>
+            <h2 className="font-display text-3xl font-bold">Nothing on the shelf yet</h2>
+            <p className="mx-auto mt-3 max-w-md text-muted-foreground">
+              Your first page starts with a short description. Write a scene and
+              draw it.
+            </p>
+            <Button
+              onClick={() => router.push("/")}
+              className="mt-8 h-12 border-2 border-ink bg-ink px-8 text-paper hover:bg-cyan hover:text-ink"
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Draw a comic
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            {stories.map((story, index) => (
+              <button
+                key={story.id}
+                onClick={() => router.push(`/story/${story.slug}`)}
+                className="proof-sheet group p-2 text-left transition-transform hover:-translate-y-1"
+                style={{ animationDelay: `${index * 40}ms` }}
+              >
+                <div className="relative aspect-[3/4] overflow-hidden border-2 border-ink bg-ink">
+                  {story.coverImage ? (
+                    <>
+                      <img
+                        src={story.coverImage}
+                        alt={story.title}
+                        className="h-full w-full object-cover grayscale contrast-125 transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-cyan/10 mix-blend-multiply" />
+                    </>
+                  ) : (
+                    <div className="flex h-full items-center justify-center">
+                      <Loader2 className="h-7 w-7 animate-spin text-spot" />
+                    </div>
+                  )}
+                  <span className="absolute right-1.5 top-1.5 bg-paper px-1.5 py-0.5 font-mono text-[9px] text-ink">
+                    {COMIC_STYLES.find((s) => s.id === story.style)?.name || story.style}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-baseline justify-between gap-2">
+                  <h3 className="truncate font-display text-sm font-bold">{story.title}</h3>
+                  <span className="shrink-0 font-mono text-[10px] text-muted-foreground">
+                    {story.pageCount}p
+                  </span>
+                </div>
+                <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">
+                  {new Date(story.createdAt).toLocaleDateString()}
+                </p>
+              </button>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

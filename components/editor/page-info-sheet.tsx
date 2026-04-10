@@ -31,7 +31,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="w-full sm:max-w-md border-l border-border/50 bg-background px-6">
         <SheetHeader className="pb-4 border-b border-border/50 px-0">
-          <SheetTitle className="text-base font-medium text-white">
+          <SheetTitle className="text-base font-medium text-ink">
             Page {page.id} Details
           </SheetTitle>
         </SheetHeader>
@@ -43,7 +43,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
               <FileText className="w-3.5 h-3.5" />
               <span>Prompt</span>
             </div>
-            <div className="p-3 glass-panel rounded-lg">
+            <div className="p-3 border-2 border-ink bg-card rounded-lg">
               <p className="text-sm text-foreground leading-relaxed">
                 {page.prompt}
               </p>
@@ -56,7 +56,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
               <Palette className="w-3.5 h-3.5" />
               <span>Style</span>
             </div>
-            <div className="inline-flex items-center px-3 py-1.5 glass-panel rounded-md">
+            <div className="inline-flex items-center px-3 py-1.5 border-2 border-ink bg-card rounded-md">
               <span className="text-sm text-foreground">{styleName}</span>
             </div>
           </div>
@@ -71,7 +71,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
                 {page.characterUploads.map((upload, index) => (
                   <div
                     key={index}
-                    className="relative h-24 w-24 rounded-lg overflow-hidden glass-panel"
+                    className="relative h-24 w-24 rounded-lg overflow-hidden border-2 border-ink bg-card"
                   >
                     <img
                       src={upload || "/placeholder.svg"}
@@ -82,7 +82,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
                 ))}
               </div>
             ) : (
-              <div className="p-4 glass-panel rounded-lg text-center">
+              <div className="p-4 border-2 border-ink bg-card rounded-lg text-center">
                 <p className="text-sm text-muted-foreground">
                   No characters uploaded
                 </p>
@@ -96,7 +96,7 @@ export function PageInfoSheet({ isOpen, onClose, page }: PageInfoSheetProps) {
               <ImageIcon className="w-3.5 h-3.5" />
               <span>Generated Image</span>
             </div>
-            <div className="relative aspect-[3/4] rounded-lg overflow-hidden glass-panel">
+            <div className="relative aspect-[3/4] rounded-lg overflow-hidden border-2 border-ink bg-card">
               <img
                 src={page.image || "/placeholder.svg"}
                 alt={`Page ${page.id}`}

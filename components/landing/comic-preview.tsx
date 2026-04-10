@@ -1,3 +1,26 @@
+const pages = [
+  {
+    style: "American modern",
+    line: "\"And a hero shall rise!\"",
+    images: ["/american.jpg", "/comic-book-superhero-action-scene-noir-style-dark-.jpg", "/comic-book-next-scene-continuation.jpg"],
+  },
+  {
+    style: "Manga",
+    line: "\"Time to save the world!\"",
+    images: ["/manga.png", "/comic-book-rooftop-confrontation-superhero-villain.jpg", "/american.jpg"],
+  },
+  {
+    style: "Noir",
+    line: "\"The city needs a hero...\"",
+    images: ["/noir.jpg", "/comic-book-superhero-action-scene-noir-style-dark-.jpg", "/manga.png"],
+  },
+  {
+    style: "Vintage",
+    line: "\"Super action\"",
+    images: ["/vintage-superman.jpg", "/american.jpg", "/comic-book-next-scene-continuation.jpg"],
+  },
+];
+
 export function ComicPreview({
   currentPage,
   goToPage,
@@ -5,220 +28,84 @@ export function ComicPreview({
   currentPage: number;
   goToPage: (page: number) => void;
 }) {
+  const page = pages[currentPage - 1] ?? pages[0];
+
   return (
-    <div className="flex w-full lg:w-1/2 mt-12 lg:mt-0 border-t lg:border-t-0 lg:border-l border-border relative items-center justify-center overflow-hidden py-10 lg:py-0">
-      {/* Dot grid background */}
-      <div className="absolute inset-0 dot-grid opacity-30" />
+    <section className="relative flex w-full items-center justify-center overflow-hidden border-t-2 border-ink bg-paper py-14 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:border-t-0 lg:py-0">
+      <div className="halftone pointer-events-none absolute inset-0 opacity-[0.08]" />
 
-      <div className="relative z-10 flex flex-col gap-4">
-        {/* Background floating comics - less prominent */}
-        <div className="block absolute -top-32 -left-20 opacity-20 animate-float animation-delay-300">
-          <div className="bg-white w-48 aspect-3/4 p-2 shadow-2xl rounded-sm rotate-12">
-            <div className="w-full h-full bg-neutral-900 border-2 border-black overflow-hidden">
-              <img
-                src="/manga.png"
-                alt="Background comic"
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
-          </div>
+      <div className="sheet-in relative z-10 w-full max-w-[620px] px-6 lg:px-8">
+        <div className="mb-5 flex items-center justify-between font-mono text-[11px] text-muted-foreground">
+          <span>Proof sheet</span>
+          <span>{String(currentPage).padStart(2, "0")} / 04</span>
         </div>
 
-        <div className="block absolute -bottom-40 left-10 opacity-15 animate-float animation-delay-500">
-          <div className="bg-white w-56 aspect-3/4 p-2 shadow-2xl rounded-sm -rotate-6">
-            <div className="w-full h-full bg-neutral-900 border-2 border-black overflow-hidden">
-              <img
-                src="/american.jpg"
-                alt="Background comic"
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
-          </div>
-        </div>
+        <div className="proof-sheet relative p-3 sm:p-4">
+          <span className="register-mark absolute -top-3 left-4 h-3 w-3" />
+          <span className="register-mark absolute -top-3 right-4 h-3 w-3" />
+          <span className="register-mark absolute -bottom-3 left-4 h-3 w-3" />
+          <span className="register-mark absolute -bottom-3 right-4 h-3 w-3" />
 
-        <div className="block absolute top-20 -right-32 opacity-25 animate-float animation-delay-700">
-          <div className="bg-white w-52 aspect-3/4 p-2 shadow-2xl rounded-sm -rotate-12">
-            <div className="w-full h-full bg-neutral-900 border-2 border-black overflow-hidden">
-              <img
-                src="/noir.jpg"
-                alt="Background comic"
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="block absolute bottom-10 -right-24 opacity-18 animate-float animation-delay-1000">
-          <div className="bg-white w-44 aspect-3/4 p-2 shadow-2xl rounded-sm rotate-6">
-            <div className="w-full h-full bg-neutral-900 border-4 border-black overflow-hidden relative">
-              <img
-                src="/vintage-superman.jpg"
-                alt="Background comic"
-                className="w-full h-full object-cover opacity-60"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="bg-white w-80 aspect-3/4 p-2 shadow-2xl rounded-sm hover:shadow-indigo/20 hover:shadow-3xl transition-all duration-300">
-            <div className="w-full h-full bg-neutral-900 border-4 border-black overflow-hidden relative">
-              {/* Page transition container */}
-              <div className="relative w-full h-full">
-                {/* Page 1 */}
-                <div
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    currentPage === 1
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 -translate-x-full"
-                  }`}
-                >
-                  <img
-                    src="/american.jpg"
-                    alt="Comic preview page 1"
-                    className="w-full h-full object-cover opacity-80 grayscale-20 contrast-125"
-                  />
-                  <div className="scan-line opacity-50" />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/70 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10">
-                    American Modern
-                  </div>
-                  <div className="absolute bottom-8 left-4 right-8 bg-white text-black p-2 text-[10px] font-medium border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] leading-tight transform rotate-1">
-                    {'"And a hero shall rise!"'}
-                  </div>
-                </div>
-
-                {/* Page 2 */}
-                <div
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    currentPage === 2
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-full"
-                  }`}
-                >
-                  <img
-                    src="/manga.png"
-                    alt="Comic preview page 2"
-                    className="w-full h-full object-cover opacity-80 grayscale-20 contrast-125"
-                  />
-                  <div className="scan-line opacity-50" />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/70 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10">
-                    Manga
-                  </div>
-                  <div className="absolute bottom-8 left-4 right-8 bg-white text-black p-2 text-[10px] font-medium border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] leading-tight transform -rotate-1">
-                    {'"Time to save the world!"'}
-                  </div>
-                </div>
-
-                <div
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    currentPage === 3
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-full"
-                  }`}
-                >
-                  <img
-                    src="/noir.jpg"
-                    alt="Comic preview page 3"
-                    className="w-full h-full object-cover opacity-80 grayscale-20 contrast-125"
-                  />
-                  <div className="scan-line opacity-50" />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/70 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10">
-                    Noir
-                  </div>
-                  <div className="absolute bottom-8 left-4 right-8 bg-white text-black p-2 text-[10px] font-medium border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] leading-tight transform -rotate-1">
-                    {'"The city needs a hero..."'}
-                  </div>
-                </div>
-
-                {/* Page 4 */}
-                <div
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    currentPage === 4
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 translate-x-full"
-                  }`}
-                >
-                  <img
-                    src="/vintage-superman.jpg"
-                    alt="Comic preview page 4"
-                    className="w-full h-full object-cover opacity-80 grayscale-20 contrast-125"
-                  />
-                  <div className="scan-line opacity-50" />
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/70 text-[9px] text-white font-mono uppercase tracking-widest border border-white/10">
-                    Vintage
-                  </div>
-                  <div className="absolute bottom-8 left-4 right-8 bg-white text-black p-2 text-[10px] font-medium border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] leading-tight transform -rotate-1">
-                    {'"Super Action"'}
-                  </div>
-                </div>
+          <div className="border-2 border-ink bg-ink p-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
+              <div className="relative col-span-2 aspect-[16/7] overflow-hidden bg-ink">
+                <img
+                  src={page.images[0]}
+                  alt={`${page.style} panel one`}
+                  className="h-full w-full scale-110 object-cover grayscale contrast-125"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-cyan/10 mix-blend-multiply" />
+                <span className="absolute bottom-1.5 left-1.5 bg-paper px-1.5 py-0.5 font-mono text-[9px] text-ink">
+                  01
+                </span>
               </div>
+              {page.images.slice(1).map((image, index) => (
+                <div key={image} className="relative aspect-[4/3] overflow-hidden bg-ink">
+                  <img
+                    src={image}
+                    alt={`${page.style} panel ${index + 2}`}
+                    className="h-full w-full scale-110 object-cover grayscale contrast-125"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-cyan/10 mix-blend-multiply" />
+                  <span className="absolute bottom-1.5 left-1.5 bg-paper px-1.5 py-0.5 font-mono text-[9px] text-ink">
+                    0{index + 2}
+                  </span>
+                </div>
+              ))}
             </div>
+          </div>
+
+          <div className="mt-4 flex items-end justify-between gap-4">
+            <p className="max-w-[72%] border-2 border-ink bg-spot px-3 py-2 text-sm font-medium leading-snug text-ink shadow-[4px_4px_0_var(--ink)]">
+              {page.line}
+            </p>
+            <span className="pb-1 font-mono text-[11px] text-muted-foreground">
+              {page.style}
+            </span>
           </div>
         </div>
 
-        <div className="hidden lg:flex absolute -right-20 top-1/2 -translate-y-1/2 lg:flex-col gap-3">
-          <button
-            onClick={() => goToPage(1)}
-            className={`w-8 h-8 rounded-full glass-panel flex items-center justify-center shadow-lg cursor-pointer transition-all duration-200 ${
-              currentPage === 1
-                ? "border-indigo bg-indigo/10"
-                : "hover:border-indigo/50 hover:bg-indigo/5"
-            }`}
-            aria-label="Go to page 1"
-          >
-            <div
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                currentPage === 1 ? "bg-indigo" : "bg-muted-foreground"
+        <div className="mt-9 flex flex-wrap items-center gap-2">
+          {pages.map((item, index) => (
+            <button
+              key={item.style}
+              onClick={() => goToPage(index + 1)}
+              className={`h-9 w-9 border-2 border-ink font-mono text-xs transition-colors ${
+                currentPage === index + 1
+                  ? "bg-cyan text-white"
+                  : "bg-card text-ink hover:bg-spot"
               }`}
-            />
-          </button>
-          <button
-            onClick={() => goToPage(2)}
-            className={`w-8 h-8 rounded-full glass-panel flex items-center justify-center shadow-lg cursor-pointer transition-all duration-200 ${
-              currentPage === 2
-                ? "border-indigo bg-indigo/10"
-                : "hover:border-indigo/50 hover:bg-indigo/5"
-            }`}
-            aria-label="Go to page 2"
-          >
-            <div
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                currentPage === 2 ? "bg-indigo" : "bg-muted-foreground"
-              }`}
-            />
-          </button>
-          <button
-            onClick={() => goToPage(3)}
-            className={`w-8 h-8 rounded-full glass-panel flex items-center justify-center shadow-lg cursor-pointer transition-all duration-200 ${
-              currentPage === 3
-                ? "border-indigo bg-indigo/10"
-                : "hover:border-indigo/50 hover:bg-indigo/5"
-            }`}
-            aria-label="Go to page 3"
-          >
-            <div
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                currentPage === 3 ? "bg-indigo" : "bg-muted-foreground"
-              }`}
-            />
-          </button>
-          <button
-            onClick={() => goToPage(4)}
-            className={`w-8 h-8 rounded-full glass-panel flex items-center justify-center shadow-lg cursor-pointer transition-all duration-200 ${
-              currentPage === 4
-                ? "border-indigo bg-indigo/10"
-                : "hover:border-indigo/50 hover:bg-indigo/5"
-            }`}
-            aria-label="Go to page 4"
-          >
-            <div
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                currentPage === 4 ? "bg-indigo" : "bg-muted-foreground"
-              }`}
-            />
-          </button>
+              aria-label={`Go to page ${index + 1}`}
+              aria-current={currentPage === index + 1 ? "true" : undefined}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <span className="ml-2 font-mono text-[11px] text-muted-foreground">
+            Turn the page
+          </span>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

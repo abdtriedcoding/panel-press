@@ -48,14 +48,14 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="border border-border/50 rounded-lg bg-background max-w-md">
+      <DialogContent className="border-2 border-ink bg-card max-w-md shadow-[8px_8px_0_var(--ink)]">
         <DialogHeader className="text-center">
           <div className="mx-auto mb-4">
-            <div className="w-14 h-14 glass-panel rounded-full flex items-center justify-center">
+            <div className="w-14 h-14 border-2 border-ink bg-spot rounded-full flex items-center justify-center">
               <MessageSquare className="w-6 h-6 text-indigo" />
             </div>
           </div>
-          <DialogTitle className="text-xl text-center text-white">
+          <DialogTitle className="text-xl text-center text-ink">
             Share your feedback
           </DialogTitle>
           <DialogDescription className="text-center text-muted-foreground">
@@ -64,12 +64,12 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         </DialogHeader>
 
         {status === "success" ? (
-          <div className="mt-4 p-4 glass-panel rounded-lg text-center">
-            <p className="text-white text-sm font-medium">Thanks for your feedback!</p>
+          <div className="mt-4 p-4 border-2 border-ink bg-card rounded-lg text-center">
+            <p className="text-ink text-sm font-medium">Thanks for your feedback!</p>
             <p className="text-muted-foreground text-xs mt-1">We really appreciate it.</p>
             <Button
               onClick={handleClose}
-              className="mt-4 bg-white hover:bg-neutral-200 text-black"
+              className="mt-4 bg-ink hover:bg-cyan text-paper"
             >
               Close
             </Button>
@@ -82,7 +82,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               placeholder="Your feedback..."
               maxLength={2000}
               rows={4}
-              className="bg-secondary border-border/50 text-white placeholder-muted-foreground resize-none"
+              className="bg-input border-2 border-ink text-ink placeholder:text-muted-foreground/60 resize-none"
             />
             {status === "error" && (
               <p className="text-red-400 text-xs">Something went wrong. Please try again.</p>
@@ -92,14 +92,14 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 type="button"
                 variant="ghost"
                 onClick={handleClose}
-                className="flex-1 text-muted-foreground hover:text-white hover:bg-secondary"
+                className="flex-1 text-muted-foreground hover:text-ink hover:bg-spot"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={!message.trim() || status === "loading"}
-                className="flex-1 gap-2 bg-white hover:bg-neutral-200 text-black"
+                className="flex-1 gap-2 bg-ink hover:bg-cyan text-paper"
               >
                 {status === "loading" ? "Sending..." : "Send Feedback"}
                 <ArrowRight className="w-4 h-4" />
